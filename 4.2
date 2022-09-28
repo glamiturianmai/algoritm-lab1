@@ -1,0 +1,53 @@
+import timeit
+code_to_test = """
+import numpy as np  # транспонирование
+a = np.array([[2, 5, 7], [6, 3, 4], [5, -2, -3]])
+p=np.linalg.matrix_power(a, -1) #возводит матрицу в степень n.
+"""
+elapsed_time = timeit.timeit(code_to_test, number=100)/100
+print('функция с numpy', elapsed_time)
+
+
+code_to_test = """
+
+
+def mi3(a11, a12, a13, a21, a22, a23, a31, a32, a33):
+    return a11*a22*a33+a21*a13*a32+a31*a12*a23-a31*a22*a13-a21*a12*a33-a11*a32*a23
+
+def mi2(a11, a12, a21, a22):
+    return a11*a22-a12*a21
+M= [[2, 5, 7], [6, 3, 4], [5, -2, -3]]
+M1= [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+M_1= [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+
+for i in range(len(M)):
+    for j in range (len(M[0])):
+        (x, y, z, w)=(0,0,0,0)
+        for i1 in range(len(M)):
+            for j1 in range(len(M[0])):
+                if ((i1!=i) and (j1!=j)):
+                    if x==0:
+                        x=M[i1][j1]
+                    elif y==0:
+                        y=M[i1][j1]
+                    elif z==0:
+                        z=M[i1][j1]
+                    elif w ==0:
+                        w = M[i1][j1]
+        M1[i][j]=(mi2(x, y, z, w)*(-1)**(i+j))
+
+Mt = [[0 for j in range(len(M1))] for i in range(len(M1[0]))]
+for j in range(len(M1)):
+    for i in range(len(M1[0])):
+        Mt[i][j] = M1[j][i]
+if mi3(M[0][0], M[0][1], M[0][2], M[1][0], M[1][1], M[1][2], M[2][0], M[2][1], M[2][2])!=0:
+    k=1/(mi3(M[0][0], M[0][1], M[0][2], M[1][0], M[1][1], M[1][2], M[2][0], M[2][1], M[2][2]))
+else:
+    print('ошибка: определитель равен 0')
+
+for i2 in range(len(Mt)):
+    for j2 in range (len(Mt[0])):
+        M_1[i2][j2]=k*Mt[i2][j2]
+"""
+elapsed_time = timeit.timeit(code_to_test, number=100)/100
+print('функция с numpy', elapsed_time)
